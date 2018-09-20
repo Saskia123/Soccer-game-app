@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- jQuery library -->
+    <!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+    <!-- Vue development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="//unpkg.com/vue"></script>
+
+    <!-- CSS -->
+    <link href="style.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.4.1/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="message-header">
+        <ul class="nav navbar-nav">
+        </ul>
+        <input id="myInput" type="text" placeholder="Search..">
+    </div>
+        <div class="tabs is-toggle">
+            <ul>
+                <li class="is-active">
+                    <a>
+        <span class="icon is-large"><i class="fas fa-users fa-3x"></i></span>
+        <span>Teams</span>
+      </a>
+                </li>
+                <li>
+                    <a>
+        <span class="icon is-large"><i class="far fa-clock fa-3x"></i></span>
+        <span>Schedule</span>
+      </a>
+                </li>
+                <li>
+                    <a>
+        <span class="icon is-large"><i class="fas fa-map-marked-alt fa-3x"></i></span>
+        <span>Locations</span>
+      </a>
+                </li>
+                <li>
+                    <a>
+        <span class="icon is-large"><i class="far fa-comments fa-3x"></i></span>
+        <span>Chat</span>
+      </a>
+                </li>
+            </ul>
+        </div>
+    <!--
+    <nav class="navbar columns is-mobile">
+        <div class="top">
+            <div class="column navbar-link navbar-item">Teams</div>
+            <div class="column is-link navbar-item">Schedule</div>
+            <div class="column is-link navbar-item">Locations</div>
+            <div class="column is-link navbar-item">Chat</div>
+        </div>
+        <div class="bottom">
+            <div class="nav-left is-link navbar-item">Members</div>
+            <div class="nav-center is-link navbar-item">Photos</div>
+            <div class="nav-center is-link navbar-item">Results</div>
+            <div class="nav-right is-link navbar-item">Events</div>
+        </div>
+    </nav>
+-->
+
+
+    <!--    <div id="body" class="container columns is-mobile">-->
+
+    <div id="vue-data">
+
+<!--
+        <i class="fas fa-futbol fa-3x"></i>
+        <i class="fas fa-user-circle fa-3x"></i>
+        <i class="fas fa-clipboard-list fa-3x"></i>
+        <i class="far fa-star fa-3x"></i>
+        <i class="fas fa-user fa-3x"></i>
+        <i class="far fa-address-card fa-3x"></i>
+        <i class="fas fa-bars fa-3x"></i>
+        <i class="fas fa-list-alt fa-3x"></i>
+        <i class="fas fa-sign-in-alt fa-3x"></i>
+        <i class="fas fa-sign-out-alt fa-3x"></i>
+-->
+
+
+
+
+    <div class="message-footer">
+        <div class="tabs is-toggle">
+            <ul>
+                <li class="is-active">
+                    <a>
+        <span class="icon is-large"><i class="fas fa-id-card-alt fa-3x"></i></span>
+        <span>Members</span>
+      </a>
+                </li>
+                <li>
+                    <a>
+        <span class="icon is-large"><i class="far fa-images fa-3x"></i></span>
+        <span>Photos</span>
+      </a>
+                </li>
+                <li>
+                    <a>
+        <span class="icon is-large"><i class="fas fa-trophy fa-3x"></i></span>
+        <span>Results</span>
+      </a>
+                </li>
+                <li>
+                    <a>
+        <span class="icon is-large"><i class="fas fa-calendar-alt fa-3x"></i></span>
+        <span>Events</span>
+      </a>
+                </li>
+            </ul>
+        </div>
+     </div>
+
+
+        <div class="schedules" v-for="schedules in schedule">
+            <div class="search title">{{schedules.date}}</div>
+            <p class="search subtitle">{{schedules.host}}</p>
+            <p class="search subtitle">{{schedules.visitor}}</p>
+            <p class="search">{{schedules.location}}</p>
+        
+        </div>
+            <div class="teams" v-for="team in teams">
+            <p class="search subtitle">{{team.id}}</p>
+        </div>            
+
+        <div class="locations" v-for="location in locations">
+            <p v-html="location.iframe"></p>
+        </div>            
+    </div>
+    <p class="buttons">
+        <a class="button">
+    <span class="icon is-large">
+      <i class="fas fa-bold"></i>
+    </span>
+  </a>
+        <a class="button">
+    <span class="icon is-large">
+      <i class="fas fa-italic"></i>
+    </span>
+  </a>
+        <a class="button">
+    <span class="icon is-large">
+      <i class="fas fa-underline"></i>
+    </span>
+  </a>
+    </p>
+
+    <p class="buttons">
+        <a class="button">
+    <span class="icon">
+      <i class="fab fa-github"></i>
+    </span>
+    <span>GitHub</span>
+  </a>
+        <a class="button is-primary">
+    <span class="icon">
+      <i class="fab fa-twitter"></i>
+    </span>
+    <span>Twitter</span>
+  </a>
+        <a class="button is-success">
+    <span class="icon is-large">
+      <i class="fas fa-check"></i>
+    </span>
+    <span>Save</span>
+  </a>
+        <a class="button is-danger is-outlined">
+    <span>Delete</span>
+    <span class="icon is-large">
+      <i class="fas fa-times"></i>
+    </span>
+  </a>
+    </p>
+    <p class="buttons">
+        <a class="button is-large">
+    <span class="icon is-large">
+      <i class="fab fa-github"></i>
+    </span>
+    <span>GitHub</span>
+  </a>
+        <a class="button">
+    <span class="icon">
+      <i class="fab fa-github"></i>
+    </span>
+    <span>GitHub</span>
+  </a>
+        <a class="button is-medium">
+    <span class="icon">
+      <i class="fab fa-github"></i>
+    </span>
+    <span>GitHub</span>
+  </a>
+        <a class="button is-large">
+    <span class="icon is-medium">
+      <i class="fab fa-github"></i>
+    </span>
+    <span>GitHub</span>
+  </a>
+    </p>
+
+
+    <!--    </div>-->
+    <!-- JS -->
+    <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="app.js"></script>
+    <!--    <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>-->
+
+</body>
+
+</html>
