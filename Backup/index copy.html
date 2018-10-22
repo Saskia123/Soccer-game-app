@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top has-navbar-fixed-bottom" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- jQuery library -->
+    <!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+    <!-- Vue development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="//unpkg.com/vue"></script>
+
+    <!-- CSS -->
+    <link href="https://fonts.googleapis.com/css?family=Anton|Bungee+Inline|Electrolize" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.4.1/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link href="style.css" rel="stylesheet" type="text/css" media="all">
+</head>
+
+<body>
+    <div id="vue">
+        <nav class="navbar is-fixed-top message-header $grey-lighter">
+            <a v-on:click="goToTeams()">
+                <span class="icon is-large"><i class="fas fa-users fa-3x"></i></span>
+                <span>Teams</span>
+            </a>
+<!--
+            <a v-on:click="selected='teams', teamfilter = 'all', locationfilter = 'all'">
+                <span class="icon is-large"><i class="fas fa-users fa-3x"></i></span>
+                <span>Teams</span>
+            </a>
+-->
+            <a v-on:click="goToSchedule()">
+        <span class="icon is-large"><i class="fas fa-futbol fa-3x"></i></span>
+        <span>Schedules</span>
+      </a>  
+<!--
+           <a v-on:click="selected='schedules', teamfilter = 'all', locationfilter = 'all'">
+        <span class="icon is-large"><i class="fas fa-futbol fa-3x"></i></span>
+        <span>Schedules</span>
+      </a>
+-->
+            <a v-on:click="selected='locations', teamfilter = 'all', locationfilter = 'all'">
+        <span class="icon is-large"><i class="fas fa-map-marked-alt fa-3x"></i></span>
+        <span>Locations</span>
+      </a>
+            <a v-on:click="selected='chat', teamfilter = 'all', locationfilter = 'all'">
+        <span class="icon is-large"><i class="far fa-comments fa-3x"></i></span>
+        <span>Chat</span>
+      </a>
+        </nav>
+        <!--        <input id="myInput" type="text" placeholder="Search..">-->
+
+        <nav class="navbar is-fixed-bottom message-header $grey-light">
+            <a v-on:click="selected='members', teamfilter = 'all', locationfilter = 'all'">
+        <span class="icon is-large"><i class="fas fa-id-card-alt fa-3x"></i></span>
+        <span>Members</span>
+    </a>
+            <a v-on:click="selected='photos', teamfilter = 'all', locationfilter = 'all'">
+        <span class="icon is-large"><i class="far fa-images fa-3x"></i></span>
+        <span>Photos</span>
+    </a>
+            <a v-on:click="selected='results', teamfilter = 'all', locationfilter = 'all'">
+        <span class="icon is-large"><i class="fas fa-trophy fa-3x"></i></span>
+        <span>Results</span>
+    </a>
+            <a v-on:click="selected='events', teamfilter = 'all', locationfilter = 'all'">
+        <span class="icon is-large"><i class="fas fa-calendar-alt fa-3x"></i></span>
+        <span>Events</span>
+    </a>
+        </nav>
+
+        <!--    <div id="body" class="container columns is-mobile">-->
+        <!--
+        <i class="far fa-clock fa-3x"></i>
+        <i class="fas fa-user-circle fa-3x"></i>
+        <i class="fas fa-clipboard-list fa-3x"></i>
+        <i class="far fa-star fa-3x"></i>
+        <i class="fas fa-user fa-3x"></i>
+        <i class="far fa-address-card fa-3x"></i>
+        <i class="fas fa-bars fa-3x"></i>
+        <i class="fas fa-list-alt fa-3x"></i>
+        <i class="fas fa-sign-in-alt fa-3x"></i>
+        <i class="fas fa-sign-out-alt fa-3x"></i>
+-->
+
+        <div class=container>
+            <div v-if="pageLocation == 'teams'" class="background">
+<!--            <div v-if="selected==='teams'" class="background">-->
+                <div class="teams" v-for="team in teams">
+                    <!--<p class="search subtitle">{{team.name}}</p>-->
+                    <a v-on:click="selected='schedules', teamfilter = team.id"><img v-bind:src="team.shield" v-bind:alt="team.name"/></a>
+                </div>
+                <img src="/assets/nysl_logo.png" alt="NYSL logo">
+            </div>
+
+      <div v-if="pageLocation == 'schedule'" class="schedules" v-for="schedules in schedule">
+<!--            <div v-if="(selected==='schedules')&&(teamfilter === schedules.host || teamfilter === schedules.visitor|| teamfilter === 'all')" class="schedules" v-for="schedules in schedule">-->
+                <div class="columns">
+                    <div class="column">
+                        <p class="search title">{{schedules.date}}</p>
+                        <!--            <p class="search subtitle">{{schedules.host}}</p>-->
+                        <div class="columns">
+                            <div class="column">
+                                <img :src="getTeamShield(schedules.host)" :alt="getTeamName(schedules.host)">
+                                <figcaption class="search">
+                                    {{getTeamName(schedules.host)}}
+                                </figcaption>
+                            </div>
+                            <!--
+                            <figure v-if="schedules.host===team.id" v-for="team in teams" class="column"><img v-bind:src="team.shield" v-bind:alt="team.name" />
+                                <figcaption class="search">
+                                    {{team.name}}
+                                </figcaption>
+                            </figure>
+-->
+                            <div class="column">
+                                <p class="search">vs.</p>
+                            </div>
+                            <!--            <p class="search subtitle">{{schedules.visitor}}</p>-->
+                            <figure v-if="schedules.visitor===team.id" v-for="team in teams" class="column">
+                                <img v-bind:src="team.shield" v-bind:alt="team.name" />
+                                <figcaption class="search">
+                                    {{team.name}}
+                                </figcaption>
+                            </figure>
+
+                            <!--<p class="search">{{schedules.location}}</p>-->
+                            <!--<p class="search subtitle">{{schedules.visitor}}</p>-->
+                        </div>
+                        <div class="columns">
+                            <a v-on:click="selected='locations', teamfilter = 'all', locationfilter = location.name" v-if="schedules.location===location.id" class="search subtitle column" v-for="location in locations">{{location.name}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="(selected==='locations')&&(locationfilter === location.name || locationfilter === 'all')" class="locations" v-for="location in locations">
+                <p class="search title is-danger">{{location.name}}</p>
+                <p class="search subtitle is-danger">{{location.street}}</p>
+                <p class="search subtitle">{{location.cityzip}}</p>
+                <p v-html="location.iframe"></p>
+            </div>
+
+
+            <div v-if="selected==='members'" class="teams" v-for="team in teams">
+                <p class="search title">{{team.name}}</p>
+                <p class="search subtitle">{{team.players}}</p>
+            </div>
+        </div>
+    </div>
+    <!-- JS -->
+    <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="app.js"></script>
+    <!--    <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>-->
+
+</body>
+
+</html>

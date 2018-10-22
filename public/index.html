@@ -1,0 +1,208 @@
+
+<!--https://game-schedule-app.firebaseapp.com/index.html#all-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Firebase-->
+    <script src="https://www.gstatic.com/firebasejs/5.5.1/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyAceDlHNpYsRkpPJtG3O_q7dqlax3cIZp0",
+            authDomain: "game-schedule-app.firebaseapp.com",
+            databaseURL: "https://game-schedule-app.firebaseio.com",
+            projectId: "game-schedule-app",
+            storageBucket: "game-schedule-app.appspot.com",
+            messagingSenderId: "441276161961"
+        };
+        firebase.initializeApp(config);
+    </script>
+
+    <!-- Vue development version, includes helpful console warnings -->
+<!--    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
+    <script src="//unpkg.com/vue"></script>
+
+    <!-- CSS -->
+    <link href="https://fonts.googleapis.com/css?family=Bungee+Inline" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link href="styles/style.css" rel="stylesheet" type="text/css" media="all">
+</head>
+
+<body>
+    <div id="vue">
+
+        <nav class="navbar my-navbar message-header $grey-lighter">
+            <a v-on:click="goToTeams()">
+                <span class="icon is-large"><i class="fas fa-users fa-3x"></i></span>
+                <span>Teams</span>
+    </a>
+
+            <a v-on:click="goToSchedule('all')">
+        <span class="icon is-large"><i class="fas fa-futbol fa-3x"></i></span>
+        <span>Schedules</span>
+    </a>
+
+            <a v-on:click="goToLocations('all')">
+        <span class="icon is-large"><i class="fas fa-map-marked-alt fa-3x"></i></span>
+        <span>Locations</span>
+    </a>
+
+            <a v-on:click="goToChat()">
+        <span class="icon is-large"><i class="far fa-comments fa-3x"></i></span>
+        <span>Chat</span>
+    </a>
+        </nav>
+
+
+        <!--<div id="body" class="container columns is-mobile">-->
+
+        <div class="container">
+           
+    <!--Teams-->
+            <div v-if="pageLocation == 'teams'" class="teams shields">
+                <div v-bind:class="team.id" v-for="team in teams">
+                    <a class="flex" v-on:click="goToSchedule(team.id)"><img v-bind:src="team.shield" v-bind:alt="team.name"/></a>
+                </div>
+                <div class="center">
+                <img class="flex" id="logo" src="/assets/nysl_logo.png" alt="NYSL logo">
+                </div>
+            </div>
+
+            <!--Schedules-->
+            <div v-if="pageLocation == 'schedule'" class="schedules" v-for="schedules in schedule">
+                <div class="datecontainer">
+                    <p class="search title date">{{schedules.date}}</p>
+                </div>
+                <div class="flexcontainer">
+                    <div class="shieldname">
+                        <img class="shield" :src="getTeamShield(schedules.host)" :alt="getTeamName(schedules.host)"
+                        v-on:click="goToMembers(schedules.host)">
+                        <p class="search name">{{getTeamName(schedules.host)}}</p>
+                    </div>
+                    <div class="vs">
+                        <p class="search">vs.</p>
+                    </div>
+                    <div class="shieldname">
+                        <img class="shield" :src="getTeamShield(schedules.visitor)" :alt="getTeamName(schedules.visitor)"
+                        v-on:click="goToMembers(schedules.visitor)"/>
+                        <p class="search name">
+                            {{getTeamName(schedules.visitor)}}
+                        </p>
+                    </div>
+                </div>
+                <div class="locationcontainer">
+                    <a v-on:click="goToLocations(schedules.location)" class="search subtitle column location">{{getLocationName(schedules.location)}}</a>
+                </div>
+            </div>
+
+            <!--Locations-->
+            <div v-if="pageLocation == 'locations'" class="locations" v-for="location in locations">
+                <p class="search title is-danger">{{location.name}}</p>
+                <p class="search subtitle is-danger">{{location.street}}</p>
+                <p class="search subtitle">{{location.cityzip}}</p>
+                <p v-html="location.iframe"></p>
+            </div>
+
+            <!--Chat-->
+            <div v-if="pageLocation == 'chat'" class="chat">
+                <div class="advice">
+                    <button v-on:click="login()" id="login" class="button is-info">Login</button>
+                </div>
+                <div id="posts" class="box">
+                    Loading posts...
+                </div>
+
+                <div class="inputs">
+                    <input id="textInput" class="input" v-model="message" type="text" placeholder="Your message...">
+                    <button id="create-post" v-on:click="writeNewPost()" class="button is-primary">Send</button>
+                </div>
+            </div>
+
+            <!--
+<div class="chat" v-if="currentChat">
+           <div class="advice" v-if="chat_post">
+
+               You must to be logged
+               <button id="login" class="button is-info" @click="login()">Login!</button>
+           </div>
+           <div id="posts" class="box" v-if="transition">
+               Loading posts...
+           </div>
+           <div class="inputs" v-if="chat_login">
+               <input id="textInput" class="input" type="text" v-model="mesaj"  placeholder="Your message...">
+
+               <button id="create-post" class="button is-primary"  @click="writeNewPost()">Send</button>
+           </div>
+       </div>
+-->
+
+
+            <!--Members-->
+            <div v-if="pageLocation == 'members'" class="members" v-for="team in teams">
+                <p v-bind:id="team.id" class="search title">{{team.name}}</p>
+                <p class="search subtitle" v-for="player in team.players">{{player}}</p>
+            </div>
+
+            <!--Photos-->
+            <div v-if="pageLocation == 'photos'" class="photos">
+                <img class="photo" src="/assets/img1.jpg" alt="boys playing soccer">
+                <img class="photo" src="/assets/img2.jpeg" alt="team picture">
+                <img class="photo" src="/assets/img3.jpeg" alt="boys playing soccer">
+                <img class="photo" src="/assets/img4.jpg" alt="boy making a goal">
+                <img class="photo" src="/assets/img5.jpeg" alt="soccer match">
+                <img class="photo" src="/assets/img6.jpg" alt="team picture">
+            </div>
+
+            <!--Results-->
+            <div v-if="pageLocation == 'results'" class="results">
+
+            </div>
+
+            <!--Events-->
+            <div v-if="pageLocation == 'events'" class="events">
+                <p class="search title">August 4</p>
+                <p class="search subtitle">NYSL Fundraiser</p>
+
+                <p class="search title">August 16</p>
+                <p class="search subtitle">Season Kick-off: Meet the Teams</p>
+
+                <p class="search title">September 1</p>
+                <p class="search subtitle"> First Game of the Season (Check Game Schedule for details)
+                </p>
+            </div>
+        </div>
+
+        <nav class="navbar my-navbar message-header $grey-light">
+            <a v-on:click="goToMembers('all')">
+        <span class="icon is-large"><i class="fas fa-id-card-alt fa-3x"></i></span>
+        <span>Members</span>
+    </a>
+            <a v-on:click="goToPhotos()">
+        <span class="icon is-large"><i class="far fa-images fa-3x"></i></span>
+        <span>Photos</span>
+    </a>
+            <a v-on:click="goToResults()">
+        <span class="icon is-large"><i class="fas fa-trophy fa-3x"></i></span>
+        <span>Results</span>
+    </a>
+            <a v-on:click="goToEvents()">
+        <span class="icon is-large"><i class="fas fa-calendar-alt fa-3x"></i></span>
+        <span>Events</span>
+    </a>
+        </nav>
+
+    </div>
+
+    <!-- jQuery library -->
+    <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+    <!-- js -->
+    <script src="scripts/app.js"></script>
+
+</body>
+</html>

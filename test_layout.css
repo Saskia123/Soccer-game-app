@@ -1,0 +1,30 @@
+html,
+body,
+.vue {
+    min-height: 100vh;
+}
+
+.is-fixed-top {
+    width: 100%;
+    height: 10vh;
+    text-align: center;
+    background: yellow;
+}
+
+.is-fixed-bottom {
+    text-align: center;
+    background: blue;
+    width: 100%;
+    height: 10vh;
+}
+
+.container {
+    width: 100%;
+    height: 80vh;
+    background: #378C0D;
+}
+
+/*
+img{
+    max-width:100%;height:auto;
+}*/

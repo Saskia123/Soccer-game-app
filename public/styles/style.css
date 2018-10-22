@@ -1,0 +1,196 @@
+/*
+firebase deploy
+
+https://game-schedule-app.firebaseapp.com
+
+https://ready.mobi/#875833-cifc
+emulator.mobilewebsitesubmit.com/
+
+positioning icons into circle: https://stackoverflow.com/questions/12813573/position-icons-into-circle
+
+adding photo gallery:
+https://www.w3schools.com/howto/howto_js_lightbox.asp
+*/
+
+html,
+body,
+#vue {
+    height: 100%;
+}
+
+.my-navbar {
+    width: 100%;
+    height: 10%;
+    text-align: center;
+}
+
+.container {
+    background-color: #00bb77;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpolygon fill='%23000' fill-opacity='.1' points='120 0 120 60 90 30 60 0 0 0 0 0 60 60 0 120 60 120 90 90 120 60 120 0'/%3E%3C/svg%3E");
+    width: 100%;
+    height: 80%;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.schedules {
+    height: 50%;
+    margin-top: 50px;
+/*    padding: 10px;*/
+}
+
+.datecontainer {
+    height: 15%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.flexcontainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.locations {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 500px;
+}
+
+.shieldname {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: auto;
+    height: 75%;
+}
+
+.shieldname > img {
+/*    width: 70%;*/
+/*    height: auto;*/
+    width: 6em;
+    height: 6em;
+
+}
+
+.name {
+    display: flex;
+    width: 100%;
+    height: 15%;
+}
+
+.vs {
+    width: 10%;
+    text-align: center;
+}
+
+.locationcontainer {
+    height: 15%;
+    display: flex;
+    justify-content: center;
+}
+
+.shields {
+    position: relative;
+    /*
+    width: 24em;
+    height: 24em;
+*/
+    /*    padding: 2.8em;*/
+    /*2.8em = 2em*1.4 (2em = half the width of a link with img, 1.4 = sqrt(2))*/
+    margin: 1.75em auto 0;
+    /*
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: stretch;
+*/
+    /*    flex-basis: 20%;*/
+}
+
+.shields a {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6em;
+    height: 6em;
+    margin: -2em;
+}
+
+/*.shields img { display: block; width: 100%; }*/
+
+.U1 {
+    transform: translate(12em);
+}
+
+/* 12em = half the width of the wrapper */
+
+.U2 {
+    transform: rotate(45deg) translate(12em) rotate(-45deg);
+}
+
+.U3 {
+    transform: rotate(135deg) translate(12em) rotate(-135deg);
+}
+
+.U4 {
+    transform: translate(-12em);
+}
+
+.U5 {
+    transform: rotate(225deg) translate(12em) rotate(-225deg);
+}
+
+.U6 {
+    transform: rotate(315deg) translate(12em) rotate(-315deg);
+}
+
+.center {
+    width: 20%;
+    top: 50%;
+    left: 50%;
+    margin: -2em;
+    width: 6em;
+    height: 6em;
+}
+
+
+.search {
+    color: #F5F5F5;
+}
+
+
+p,
+div,
+span {
+    /*font-family: 'Anton', sans-serif; */
+    /*font-family: 'Electrolize', sans-serif; */
+    font-family: 'Bungee Inline', cursive;
+    font-size: 12px;
+}
+
+
+/*iframes*/
+/*https://www.sitepoint.com/css3-transform-background-image/*/
+
+@media screen and (orientation: portrait) {
+    .container img{
+/*pivot background*/
+   
+/*    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpolygon fill='%23000' fill-opacity='.1' points='120 0 120 60 90 30 60 0 0 0 0 0 60 60 0 120 60 120 90 90 120 60 120 0'/%3E%3C/svg%3E") ;*/
+    transform:rotate(90deg);
+    }
+      div.example {
+    display: none;
+  }
+}
