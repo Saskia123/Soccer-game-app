@@ -1,6 +1,16 @@
 
 <!--https://game-schedule-app.firebaseapp.com/index.html#all-->
 
+<!--https://saskia123.github.io/Soccer-game-app/public/index.html-->
+
+<!--
+firebase uitleg:
+https://codeacademy.ubiqum.com/mc/resources?productID=4415&taskID=1737
+
+
+http://www.codeforest.net/jquery-mobile-tutorial-basics
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -70,7 +80,7 @@
                     <a class="flex" v-on:click="goToSchedule(team.id)"><img v-bind:src="team.shield" v-bind:alt="team.name"/></a>
                 </div>
                 <div class="center">
-                <img class="flex" id="logo" src="/assets/nysl_logo.png" alt="NYSL logo">
+                <img class="flex" id="logo" src="./assets/nysl_logo.png" alt="NYSL logo">
                 </div>
             </div>
 
@@ -151,12 +161,12 @@
 
             <!--Photos-->
             <div v-if="pageLocation == 'photos'" class="photos">
-                <img class="photo" src="/assets/img1.jpg" alt="boys playing soccer">
-                <img class="photo" src="/assets/img2.jpeg" alt="team picture">
-                <img class="photo" src="/assets/img3.jpeg" alt="boys playing soccer">
-                <img class="photo" src="/assets/img4.jpg" alt="boy making a goal">
-                <img class="photo" src="/assets/img5.jpeg" alt="soccer match">
-                <img class="photo" src="/assets/img6.jpg" alt="team picture">
+                <img class="photo" src="./assets/img1.jpg" alt="boys playing soccer">
+                <img class="photo" src="./assets/img2.jpeg" alt="team picture">
+                <img class="photo" src="./assets/img3.jpeg" alt="boys playing soccer">
+                <img class="photo" src="./assets/img4.jpg" alt="boy making a goal">
+                <img class="photo" src="./assets/img5.jpeg" alt="soccer match">
+                <img class="photo" src="./assets/img6.jpg" alt="team picture">
             </div>
 
             <!--Results-->
